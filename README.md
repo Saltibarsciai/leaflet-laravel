@@ -1,18 +1,18 @@
-<p align="center"><a href="https://laravel.com" target="_blank">
-    ```
+<ol align="center">
+    <li>
     composer install
-    ```
-    ```
+    </li>
+   <li>
     php artisan key:generate
-    ```
-    ```
+   </li>
+    <li>
     npm install
-    ```
-    ```
+    </li>
+    <li>
     npm run dev
-    ```
-    ```
+    </li>
+    <li>
     php artisan serve
-    ```
-</p>
+    </li>
+</ol>
 
