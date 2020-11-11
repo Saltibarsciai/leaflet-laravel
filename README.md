@@ -9,7 +9,7 @@
     npm install
     </li>
     <li>
-    npm run dev
+    npm run dev/watch
     </li>
     <li>
     php artisan serve
