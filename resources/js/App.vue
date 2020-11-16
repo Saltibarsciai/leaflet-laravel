@@ -41,6 +41,10 @@
                     {{zoom}}
                 </l-popup>
             </l-marker>
+            <l-marker :lat-lng="[51,6]" :icon="currentAccoIcon"></l-marker>
+            <l-marker :lat-lng="[52,7]" :icon="currentAccoIcon"></l-marker>
+            <l-marker :lat-lng="[53,8]" :icon="currentAccoIcon"></l-marker>
+            <l-marker :lat-lng="[54,9]" :icon="currentAccoIcon"></l-marker>
         </l-map>
         <button @click="boundsUpdated(1)">shuffle</button>
     </div>
@@ -102,6 +106,11 @@
                         iconSize: [51, 58],
                     })
                 });
+
+                let bounds = L.latLngBounds(L.featureGroup(this.getSearchedItemMarkers()).getBounds());
+                console.log('bounds', bounds);
+                this.map.fitBounds(bounds, {maxZoom: 13});
+
                 this.boundsUpdated(this.map.getBounds(), this.zoom - 3);
                 this.map.on('dragend', () => {
                     this.boundsUpdated(this.map.getBounds(), this.zoom - 3);
@@ -110,6 +119,17 @@
                     this.boundsUpdated(this.map.getBounds(), this.zoom - 3);
 
                 });
+            },
+            getSearchedItemMarkers() {
+                let markerArray = [];
+                 markerArray = [
+                     L.marker([51,6], {icon: this.icon}),
+                     L.marker([52,7], {icon: this.icon}),
+                     L.marker([53,8], {icon: this.icon}),
+                     L.marker([54,9], {icon: this.icon}),
+                 ];
+
+                return markerArray;
             },
             boundsUpdated(bounds, zoom = this.zoom) {
                 this.getPois(bounds, zoom);

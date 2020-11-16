@@ -13699,86 +13699,32 @@ exports.tokTypes = types;
 /*!***********************************************************************!*\
   !*** ./node_modules/@vue-leaflet/vue-leaflet/dist/vue-leaflet.esm.js ***!
   \***********************************************************************/
-/*! exports provided: LControlLayers, LIcon, LMap, LMarker, LPolygon, LPolyline, LPopup, LRectangle, LTileLayer, LTooltip */
+/*! exports provided: LCircle, LCircleMarker, LControl, LControlAttribution, LControlLayers, LControlScale, LControlZoom, LGeoJson, LIcon, LLayerGroup, LMap, LMarker, LPolygon, LPolyline, LPopup, LRectangle, LTileLayer, LTooltip, LWmsTileLayer */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LControlLayers", function() { return script; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LIcon", function() { return script$4; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LMap", function() { return script$1; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LMarker", function() { return script$2; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LPolygon", function() { return script$8; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LPolyline", function() { return script$5; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LPopup", function() { return script$7; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LRectangle", function() { return script$9; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LTileLayer", function() { return script$3; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LTooltip", function() { return script$6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LCircle", function() { return script; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LCircleMarker", function() { return script$1; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LControl", function() { return script$6; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LControlAttribution", function() { return script$2; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LControlLayers", function() { return script$3; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LControlScale", function() { return script$4; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LControlZoom", function() { return script$5; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LGeoJson", function() { return script$i; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LIcon", function() { return script$a; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LLayerGroup", function() { return script$h; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LMap", function() { return script$7; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LMarker", function() { return script$8; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LPolygon", function() { return script$e; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LPolyline", function() { return script$b; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LPopup", function() { return script$d; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LRectangle", function() { return script$f; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LTileLayer", function() { return script$9; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LTooltip", function() { return script$c; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LWmsTileLayer", function() { return script$g; });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
-
-const props = {
-  position: {
-    type: String,
-    default: "topright",
-  },
-};
-const setup = (leafletRef) => {
-  Object(vue__WEBPACK_IMPORTED_MODULE_0__["onUnmounted"])(() => {
-    if (leafletRef.value) {
-      leafletRef.value.remove();
-    }
-  });
-};
-
-const props$1 = {
-  ...props,
-  collapsed: {
-    type: Boolean,
-    default: true,
-  },
-  autoZIndex: {
-    type: Boolean,
-    default: true,
-  },
-  hideSingleBase: {
-    type: Boolean,
-    default: false,
-  },
-  sortLayers: {
-    type: Boolean,
-    default: false,
-  },
-  sortFunction: {
-    type: Function,
-    default: undefined,
-  },
-};
-
-const setup$1 = (props, leafletRef) => {
-  setup(leafletRef);
-  const options = {
-    collapsed: props.collapsed,
-    autoZIndex: props.autoZIndex,
-    hideSingleBase: props.hideSingleBase,
-    sortLayers: props.sortLayers,
-    sortFunction: props.sortFunction,
-  };
-
-  const methods = {
-    addLayer(layer) {
-      if (layer.layerType === "base") {
-        leafletRef.value.addBaseLayer(layer.leafletObject, layer.name);
-      } else if (layer.layerType === "overlay") {
-        leafletRef.value.addOverlay(layer.leafletObject, layer.name);
-      }
-    },
-    removeLayer(layer) {
-      leafletRef.value.removeLayer(layer.leafletObject);
-    },
-  };
-  return { options, methods };
-};
 
 const debounce = (fn, time) => {
   let timeout;
@@ -13880,14 +13826,586 @@ const provideLeafletWrapper = (methodName) => {
 const updateLeafletWrapper = (wrapper, leafletMethod) =>
   (wrapper.wrapped.value = leafletMethod);
 
+const props = {
+  pane: {
+    type: String,
+    default: "overlayPane",
+  },
+  attribution: {
+    type: String,
+    default: null,
+  },
+  name: {
+    type: String,
+    custom: true,
+    default: undefined,
+  },
+  layerType: {
+    type: String,
+    custom: true,
+    default: undefined,
+  },
+  visible: {
+    type: Boolean,
+    custom: true,
+    default: true,
+  },
+};
+
+const setup = (props, leafletRef, context) => {
+  const addLayer = Object(vue__WEBPACK_IMPORTED_MODULE_0__["inject"])("addLayer");
+  const removeLayer = Object(vue__WEBPACK_IMPORTED_MODULE_0__["inject"])("removeLayer");
+  const options = {
+    attribution: props.attribution,
+    pane: props.pane,
+  };
+
+  const methods = {
+    setAttribution(val, old) {
+      const attributionControl = this.$parent.leafletObject.attributionControl;
+      attributionControl.removeAttribution(old).addAttribution(val);
+    },
+    setName() {
+      removeLayer(leafletRef.value);
+      if (props.visible) {
+        addLayer(leafletRef.value);
+      }
+    },
+    setLayerType() {
+      removeLayer(leafletRef.value);
+      if (props.visible) {
+        addLayer(leafletRef.value);
+      }
+    },
+    setVisible(isVisible) {
+      if (leafletRef.value) {
+        if (isVisible) {
+          addLayer(leafletRef.value);
+        } else {
+          removeLayer(leafletRef.value);
+        }
+      }
+    },
+    bindPopup({ leafletObject }) {
+      leafletRef.value.bindPopup(leafletObject);
+    },
+    bindTooltip({ leafletObject }) {
+      leafletRef.value.bindTooltip(leafletObject);
+    },
+    unbindTooltip() {
+      const tooltip = leafletRef.value ? leafletRef.value.getTooltip() : null;
+      if (tooltip) {
+        tooltip.unbindTooltip();
+      }
+    },
+    unbindPopup() {
+      const popup = leafletRef.value ? leafletRef.value.getPopup() : null;
+      if (popup) {
+        popup.unbindPopup();
+      }
+    },
+    updateVisibleProp(value) {
+      /**
+       * Triggers when the visible prop needs to be updated
+       * @type {boolean}
+       * @property {boolean} value - value of the visible property
+       */
+      context.emit("update:visible", value);
+    },
+  };
+
+  Object(vue__WEBPACK_IMPORTED_MODULE_0__["provide"])("bindPopup", methods.bindPopup);
+  Object(vue__WEBPACK_IMPORTED_MODULE_0__["provide"])("bindTooltip", methods.bindTooltip);
+  Object(vue__WEBPACK_IMPORTED_MODULE_0__["provide"])("unbindTooltip", methods.unbindTooltip);
+  Object(vue__WEBPACK_IMPORTED_MODULE_0__["provide"])("unbindPopup", methods.unbindPopup);
+
+  Object(vue__WEBPACK_IMPORTED_MODULE_0__["onUnmounted"])(() => {
+    methods.unbindPopup();
+    methods.unbindTooltip();
+    removeLayer({ leafletObject: leafletRef.value });
+  });
+
+  return { options, methods };
+};
+
+const render = (ready, context) => () => {
+  if (ready.value && context.slots.default) {
+    return Object(vue__WEBPACK_IMPORTED_MODULE_0__["h"])("div", { style: { display: "none" } }, context.slots.default());
+  }
+  return null;
+};
+
+const props$1 = {
+  interactive: {
+    type: Boolean,
+    default: true,
+  },
+  bubblingMouseEvents: {
+    type: Boolean,
+    default: true,
+  },
+};
+
+const setup$1 = (props) => {
+  const options = {
+    interactive: props.interactive,
+    bubblingMouseEvents: props.bubblingMouseEvents,
+  };
+
+  const methods = {};
+
+  return { options, methods };
+};
+
+const props$2 = {
+  ...props,
+  ...props$1,
+  stroke: {
+    type: Boolean,
+    custom: true,
+    default: true,
+  },
+  color: {
+    type: String,
+    custom: true,
+    default: "#3388ff",
+  },
+  weight: {
+    type: Number,
+    custom: true,
+    default: 3,
+  },
+  opacity: {
+    type: Number,
+    custom: true,
+    default: 1.0,
+  },
+  lineCap: {
+    type: String,
+    custom: true,
+    default: "round",
+  },
+  lineJoin: {
+    type: String,
+    custom: true,
+    default: "round",
+  },
+  dashArray: {
+    type: String,
+    custom: true,
+    default: null,
+  },
+  dashOffset: {
+    type: String,
+    custom: true,
+    default: null,
+  },
+  fill: {
+    type: Boolean,
+    custom: true,
+    default: false,
+  },
+  fillColor: {
+    type: String,
+    custom: true,
+    default: "#3388ff",
+  },
+  fillOpacity: {
+    type: Number,
+    custom: true,
+    default: 0.2,
+  },
+  fillRule: {
+    type: String,
+    custom: true,
+    default: "evenodd",
+  },
+  className: {
+    type: String,
+    custom: true,
+    default: null,
+  },
+};
+
+const setup$2 = (props, leafletRef, context) => {
+  const { options: layerOptions, methods: layerMethods } = setup(
+    props,
+    leafletRef,
+    context
+  );
+  const {
+    options: interactiveLayerOptions,
+    methods: interactiveLayerMethods,
+  } = setup$1(props);
+
+  const removeLayer = Object(vue__WEBPACK_IMPORTED_MODULE_0__["inject"])("removeLayer");
+
+  const options = {
+    ...layerOptions,
+    ...interactiveLayerOptions,
+    stroke: props.stroke,
+    color: props.color,
+    weight: props.weight,
+    opacity: props.opacity,
+    lineCap: props.lineCap,
+    lineJoin: props.lineJoin,
+    dashArray: props.dashArray,
+    dashOffset: props.dashOffset,
+    fill: props.fill,
+    fillColor: props.fillColor,
+    fillOpacity: props.fillOpacity,
+    fillRule: props.fillRule,
+    className: props.className,
+  };
+  const methods = {
+    ...layerMethods,
+    ...interactiveLayerMethods,
+    setStroke(stroke) {
+      leafletRef.value.setStyle({ stroke });
+    },
+    setColor(color) {
+      leafletRef.value.setStyle({ color });
+    },
+    setWeight(weight) {
+      leafletRef.value.setStyle({ weight });
+    },
+    setOpacity(opacity) {
+      leafletRef.value.setStyle({ opacity });
+    },
+    setLineCap(lineCap) {
+      leafletRef.value.setStyle({ lineCap });
+    },
+    setLineJoin(lineJoin) {
+      leafletRef.value.setStyle({ lineJoin });
+    },
+    setDashArray(dashArray) {
+      leafletRef.value.setStyle({ dashArray });
+    },
+    setDashOffset(dashOffset) {
+      leafletRef.value.setStyle({ dashOffset });
+    },
+    setFill(fill) {
+      leafletRef.value.setStyle({ fill });
+    },
+    setFillColor(fillColor) {
+      leafletRef.value.setStyle({ fillColor });
+    },
+    setFillOpacity(fillOpacity) {
+      leafletRef.value.setStyle({ fillOpacity });
+    },
+    setFillRule(fillRule) {
+      leafletRef.value.setStyle({ fillRule });
+    },
+    setClassName(className) {
+      leafletRef.value.setStyle({ className });
+    },
+  };
+
+  Object(vue__WEBPACK_IMPORTED_MODULE_0__["onBeforeUnmount"])(() => {
+    removeLayer();
+  });
+
+  return { options, methods };
+};
+
+const props$3 = {
+  ...props$2,
+  latLng: {
+    type: [Object, Array],
+    custom: true,
+    default: null,
+  },
+  /**
+   * Radius of the marker in pixels.
+   */
+  radius: {
+    type: Number,
+    default: null,
+  },
+};
+
+const setup$3 = (props, leafletRef, context) => {
+  const { options: pathOptions, methods: pathMethods } = setup$2(
+    props,
+    leafletRef,
+    context
+  );
+  const options = {
+    ...pathOptions,
+    ...props,
+  };
+  const methods = {
+    ...pathMethods,
+    setRadius(radius) {
+      leafletRef.value.setRadius(radius);
+    },
+    setLatLng(latLng) {
+      leafletRef.value.setLatLng(latLng);
+    },
+  };
+
+  return { options, methods };
+};
+
+const props$4 = {
+  ...props$3,
+  /**
+   * Radius of the circle in meters.
+   */
+  radius: {
+    type: Number,
+    default: null,
+  },
+};
+
+const setup$4 = (props, leafletRef, context) => {
+  const {
+    options: circleMarkerOptions,
+    methods: circleMarkerMethods,
+  } = setup$3(props, leafletRef, context);
+  const options = {
+    ...circleMarkerOptions,
+    ...props,
+  };
+  const methods = {
+    ...circleMarkerMethods,
+  };
+
+  return { options, methods };
+};
+
+/**
+ * Circle component, lets you add and personalize circles on the map
+ */
 var script = {
+  name: "LCircle",
+  props: props$4,
+  setup(props, context) {
+    const leafletRef = Object(vue__WEBPACK_IMPORTED_MODULE_0__["ref"])({});
+    const ready = Object(vue__WEBPACK_IMPORTED_MODULE_0__["ref"])(false);
+
+    const addLayer = Object(vue__WEBPACK_IMPORTED_MODULE_0__["inject"])("addLayer");
+
+    const { options, methods } = setup$4(props, leafletRef, context);
+
+    Object(vue__WEBPACK_IMPORTED_MODULE_0__["onMounted"])(async () => {
+      const { circle, DomEvent, setOptions } = await __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! leaflet/dist/leaflet-src.esm */ "./node_modules/leaflet/dist/leaflet-src.esm.js"));
+
+      leafletRef.value = circle(props.latLng, options);
+
+      const listeners = remapEvents(context.attrs);
+      DomEvent.on(leafletRef.value, listeners);
+
+      propsBinder(methods, leafletRef.value, props, setOptions);
+
+      addLayer({
+        ...props,
+        ...methods,
+        leafletObject: leafletRef.value,
+      });
+      ready.value = true;
+    });
+    return render(ready, context);
+  },
+};
+
+const render$1 = () => {};
+
+
+script.render = render$1;
+script.__file = "src/components/LCircle.vue";
+
+/**
+ * Circle Marker component, lets you add and personalize circle markers on the map
+ */
+var script$1 = {
+  name: "LCircleMarker",
+  props: props$3,
+  setup(props, context) {
+    const leafletRef = Object(vue__WEBPACK_IMPORTED_MODULE_0__["ref"])({});
+    const ready = Object(vue__WEBPACK_IMPORTED_MODULE_0__["ref"])(false);
+
+    const addLayer = Object(vue__WEBPACK_IMPORTED_MODULE_0__["inject"])("addLayer");
+
+    const { options, methods } = setup$3(props, leafletRef, context);
+
+    Object(vue__WEBPACK_IMPORTED_MODULE_0__["onMounted"])(async () => {
+      const { circleMarker, DomEvent, setOptions } = await __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! leaflet/dist/leaflet-src.esm */ "./node_modules/leaflet/dist/leaflet-src.esm.js"));
+
+      leafletRef.value = circleMarker(props.latLng, options);
+
+      const listeners = remapEvents(context.attrs);
+      DomEvent.on(leafletRef.value, listeners);
+
+      propsBinder(methods, leafletRef.value, props, setOptions);
+
+      addLayer({
+        ...props,
+        ...methods,
+        leafletObject: leafletRef.value,
+      });
+      ready.value = true;
+    });
+    return render(ready, context);
+  },
+};
+
+const render$2 = () => {};
+
+
+script$1.render = render$2;
+script$1.__file = "src/components/LCircleMarker.vue";
+
+const props$5 = {
+  position: {
+    type: String,
+    default: "topright",
+  },
+};
+
+const setup$5 = (props, leafletRef) => {
+  const options = {
+    position: props.position,
+  };
+
+  const methods = {
+    setPosition(position) {
+      if (leafletRef.value) {
+        leafletRef.value.setPosition(position);
+      }
+    },
+  };
+
+  Object(vue__WEBPACK_IMPORTED_MODULE_0__["onUnmounted"])(() => {
+    if (leafletRef.value) {
+      leafletRef.value.remove();
+    }
+  });
+
+  return { options, methods };
+};
+
+const render$3 = (context, root) => () => {
+  if (context.slots.default) {
+    return Object(vue__WEBPACK_IMPORTED_MODULE_0__["h"])("div", { ref: root }, context.slots.default());
+  }
+  return null;
+};
+
+const props$6 = {
+  ...props$5,
+  prefix: {
+    type: String,
+    default: "Vue-Leaflet",
+    custom: true,
+  },
+};
+
+const setup$6 = (props, leafletRef) => {
+  const { options: controlOptions, methods: controlMethods } = setup$5(
+    props,
+    leafletRef
+  );
+  const options = {
+    ...controlOptions,
+    prefix: props.prefix,
+  };
+
+  const methods = {
+    ...controlMethods,
+    setPrefix(prefix) {
+      leafletRef.value.setPrefix(prefix);
+    },
+  };
+
+  return { options, methods };
+};
+
+var script$2 = {
+  name: "LControlAttribution",
+  props: props$6,
+  setup(props) {
+    const leafletRef = Object(vue__WEBPACK_IMPORTED_MODULE_0__["ref"])({});
+
+    const registerControl = Object(vue__WEBPACK_IMPORTED_MODULE_0__["inject"])("registerControl");
+    const { options, methods } = setup$6(props, leafletRef);
+    Object(vue__WEBPACK_IMPORTED_MODULE_0__["onMounted"])(async () => {
+      const { control, setOptions } = await __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! leaflet/dist/leaflet-src.esm */ "./node_modules/leaflet/dist/leaflet-src.esm.js"));
+
+      leafletRef.value = control.attribution(options);
+      propsBinder(methods, leafletRef.value, props, setOptions);
+      registerControl({ leafletObject: leafletRef.value });
+    });
+  },
+  render() {
+    return null;
+  },
+};
+
+const render$4 = () => {};
+
+
+script$2.render = render$4;
+script$2.__file = "src/components/LControlAttribution.vue";
+
+const props$7 = {
+  ...props$5,
+  collapsed: {
+    type: Boolean,
+    default: true,
+  },
+  autoZIndex: {
+    type: Boolean,
+    default: true,
+  },
+  hideSingleBase: {
+    type: Boolean,
+    default: false,
+  },
+  sortLayers: {
+    type: Boolean,
+    default: false,
+  },
+  sortFunction: {
+    type: Function,
+    default: undefined,
+  },
+};
+
+const setup$7 = (props, leafletRef) => {
+  const { options: controlOptions } = setup$5(props, leafletRef);
+  const options = {
+    ...controlOptions,
+    collapsed: props.collapsed,
+    autoZIndex: props.autoZIndex,
+    hideSingleBase: props.hideSingleBase,
+    sortLayers: props.sortLayers,
+    sortFunction: props.sortFunction,
+  };
+
+  const methods = {
+    addLayer(layer) {
+      if (layer.layerType === "base") {
+        leafletRef.value.addBaseLayer(layer.leafletObject, layer.name);
+      } else if (layer.layerType === "overlay") {
+        leafletRef.value.addOverlay(layer.leafletObject, layer.name);
+      }
+    },
+    removeLayer(layer) {
+      leafletRef.value.removeLayer(layer.leafletObject);
+    },
+  };
+  return { options, methods };
+};
+
+var script$3 = {
   name: "LControlLayers",
-  props: props$1,
+  props: props$7,
   setup(props) {
     const leafletRef = Object(vue__WEBPACK_IMPORTED_MODULE_0__["ref"])({});
 
     const registerLayerControl = Object(vue__WEBPACK_IMPORTED_MODULE_0__["inject"])("registerLayerControl");
-    const { options, methods } = setup$1(props, leafletRef);
+    const { options, methods } = setup$7(props, leafletRef);
     Object(vue__WEBPACK_IMPORTED_MODULE_0__["onMounted"])(async () => {
       const { control, setOptions } = await __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! leaflet/dist/leaflet-src.esm */ "./node_modules/leaflet/dist/leaflet-src.esm.js"));
 
@@ -13906,13 +14424,191 @@ var script = {
   },
 };
 
-const render = () => {};
+const render$5 = () => {};
 
 
-script.render = render;
-script.__file = "src/components/LControlLayers.vue";
+script$3.render = render$5;
+script$3.__file = "src/components/LControlLayers.vue";
 
-var script$1 = {
+const props$8 = {
+  ...props$5,
+  maxWidth: {
+    type: Number,
+    default: 100,
+  },
+  metric: {
+    type: Boolean,
+    default: true,
+  },
+  imperial: {
+    type: Boolean,
+    default: true,
+  },
+  updateWhenIdle: {
+    type: Boolean,
+    default: false,
+  },
+};
+
+const setup$8 = (props, leafletRef) => {
+  const { options: controlOptions, methods: controlMethods } = setup$5(
+    props,
+    leafletRef
+  );
+  const options = {
+    ...controlOptions,
+    maxWidth: props.maxWidth,
+    metric: props.metric,
+    imperial: props.imperial,
+    updateWhenIdle: props.updateWhenIdle,
+  };
+
+  return { options, methods: controlMethods };
+};
+
+var script$4 = {
+  name: "LControlScale",
+  props: props$8,
+  setup(props) {
+    const leafletRef = Object(vue__WEBPACK_IMPORTED_MODULE_0__["ref"])({});
+
+    const registerControl = Object(vue__WEBPACK_IMPORTED_MODULE_0__["inject"])("registerControl");
+    const { options, methods } = setup$8(props, leafletRef);
+    Object(vue__WEBPACK_IMPORTED_MODULE_0__["onMounted"])(async () => {
+      const { control, setOptions } = await __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! leaflet/dist/leaflet-src.esm */ "./node_modules/leaflet/dist/leaflet-src.esm.js"));
+
+      leafletRef.value = control.scale(options);
+      propsBinder(methods, leafletRef.value, props, setOptions);
+      registerControl({ leafletObject: leafletRef.value });
+    });
+  },
+  render() {
+    return null;
+  },
+};
+
+const render$6 = () => {};
+
+
+script$4.render = render$6;
+script$4.__file = "src/components/LControlScale.vue";
+
+const props$9 = {
+  ...props$5,
+  zoomInText: {
+    type: String,
+    default: "+",
+  },
+  zoomInTitle: {
+    type: String,
+    default: "Zoom in",
+  },
+  zoomOutText: {
+    type: String,
+    default: "-",
+  },
+  zoomOutTitle: {
+    type: String,
+    default: "Zoom out",
+  },
+};
+
+const setup$9 = (props, leafletRef) => {
+  const { options: controlOptions, methods: controlMethods } = setup$5(
+    props,
+    leafletRef
+  );
+  const options = {
+    ...controlOptions,
+    zoomInText: props.zoomInText,
+    zoomInTitle: props.zoomInTitle,
+    zoomOutText: props.zoomOutText,
+    zoomOutTitle: props.zoomOutTitle,
+  };
+
+  return { options, methods: controlMethods };
+};
+
+var script$5 = {
+  name: "LControlZoom",
+  props: props$9,
+  setup(props) {
+    const leafletRef = Object(vue__WEBPACK_IMPORTED_MODULE_0__["ref"])({});
+
+    const registerControl = Object(vue__WEBPACK_IMPORTED_MODULE_0__["inject"])("registerControl");
+    const { options, methods } = setup$9(props, leafletRef);
+    Object(vue__WEBPACK_IMPORTED_MODULE_0__["onMounted"])(async () => {
+      const { control, setOptions } = await __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! leaflet/dist/leaflet-src.esm */ "./node_modules/leaflet/dist/leaflet-src.esm.js"));
+
+      leafletRef.value = control.zoom(options);
+      propsBinder(methods, leafletRef.value, props, setOptions);
+      registerControl({ leafletObject: leafletRef.value });
+    });
+  },
+  render() {
+    return null;
+  },
+};
+
+const render$7 = () => {};
+
+
+script$5.render = render$7;
+script$5.__file = "src/components/LControlZoom.vue";
+
+var script$6 = {
+  name: "LControl",
+  props: {
+    ...props$5,
+    disableClickPropagation: {
+      type: Boolean,
+      custom: true,
+      default: true,
+    },
+    disableScrollPropagation: {
+      type: Boolean,
+      custom: true,
+      default: false,
+    },
+  },
+  setup(props, context) {
+    const leafletRef = Object(vue__WEBPACK_IMPORTED_MODULE_0__["ref"])({});
+    const root = Object(vue__WEBPACK_IMPORTED_MODULE_0__["ref"])(null);
+
+    const registerControl = Object(vue__WEBPACK_IMPORTED_MODULE_0__["inject"])("registerControl");
+    const { options, methods } = setup$5(props, leafletRef);
+    Object(vue__WEBPACK_IMPORTED_MODULE_0__["onMounted"])(async () => {
+      const { Control, setOptions, DomEvent } = await __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! leaflet/dist/leaflet-src.esm */ "./node_modules/leaflet/dist/leaflet-src.esm.js"));
+
+      const LControl = Control.extend({
+        onAdd() {
+          return root.value;
+        },
+      });
+
+      leafletRef.value = new LControl(options);
+      propsBinder(methods, leafletRef.value, props, setOptions);
+      registerControl({ leafletObject: leafletRef.value });
+
+      if (props.disableClickPropagation) {
+        DomEvent.disableClickPropagation(root.value);
+      }
+      if (props.disableScrollPropagation) {
+        DomEvent.disableScrollPropagation(root.value);
+      }
+    });
+
+    return render$3(context, root);
+  },
+};
+
+const render$8 = () => {};
+
+
+script$6.render = render$8;
+script$6.__file = "src/components/LControl.vue";
+
+var script$7 = {
   props: {
     /**
      * The center of the map, supports .sync modifier
@@ -14062,6 +14758,7 @@ var script$1 = {
 
     const addLayer = provideLeafletWrapper("addLayer");
     const removeLayer = provideLeafletWrapper("removeLayer");
+    const registerControl = provideLeafletWrapper("registerControl");
     const registerLayerControl = provideLeafletWrapper("registerLayerControl");
 
     const eventHandlers = {
@@ -14151,17 +14848,25 @@ var script$1 = {
 
         registerLayerControl(lControlLayer) {
           blueprint.layerControl = lControlLayer;
-          blueprint.leafletRef.addControl(lControlLayer.leafletObject);
           blueprint.layersToAdd.forEach((layer) => {
             blueprint.layerControl.addLayer(layer);
           });
           blueprint.layersToAdd = [];
+
+          registerControl(lControlLayer);
+        },
+
+        registerControl(lControl) {
+          blueprint.leafletRef.addControl(lControl.leafletObject);
         },
 
         setZoom(newVal) {
-          blueprint.leafletRef.setZoom(newVal, {
-            animate: props.noBlockingAnimations ? false : null,
-          });
+          const zoom = blueprint.leafletRef.getZoom();
+          if (newVal !== zoom) {
+            blueprint.leafletRef.setZoom(newVal, {
+              animate: props.noBlockingAnimations ? false : null,
+            });
+          }
         },
 
         setPaddingBottomRight(newVal) {
@@ -14224,6 +14929,7 @@ var script$1 = {
 
       updateLeafletWrapper(addLayer, methods.addLayer);
       updateLeafletWrapper(removeLayer, methods.removeLayer);
+      updateLeafletWrapper(registerControl, methods.registerControl);
       updateLeafletWrapper(registerLayerControl, methods.registerLayerControl);
 
       blueprint.leafletRef = map(root.value, options);
@@ -14262,7 +14968,7 @@ const _hoisted_1 = {
   ref: "root"
 };
 
-function render$1(_ctx, _cache, $props, $setup, $data, $options) {
+function render$9(_ctx, _cache, $props, $setup, $data, $options) {
   return (Object(vue__WEBPACK_IMPORTED_MODULE_0__["openBlock"])(), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createBlock"])("div", _hoisted_1, [
     ($setup.ready)
       ? Object(vue__WEBPACK_IMPORTED_MODULE_0__["renderSlot"])(_ctx.$slots, "default", { key: 0 })
@@ -14270,120 +14976,11 @@ function render$1(_ctx, _cache, $props, $setup, $data, $options) {
   ], 512 /* NEED_PATCH */))
 }
 
-script$1.render = render$1;
-script$1.__file = "src/components/LMap.vue";
+script$7.render = render$9;
+script$7.__file = "src/components/LMap.vue";
 
-const props$2 = {
-  pane: {
-    type: String,
-    default: "overlayPane",
-  },
-  attribution: {
-    type: String,
-    default: null,
-  },
-  name: {
-    type: String,
-    custom: true,
-    default: undefined,
-  },
-  layerType: {
-    type: String,
-    custom: true,
-    default: undefined,
-  },
-  visible: {
-    type: Boolean,
-    custom: true,
-    default: true,
-  },
-};
-
-const setup$2 = (props, leafletRef, context) => {
-  const addLayer = Object(vue__WEBPACK_IMPORTED_MODULE_0__["inject"])("addLayer");
-  const removeLayer = Object(vue__WEBPACK_IMPORTED_MODULE_0__["inject"])("removeLayer");
-  const options = {
-    attribution: props.attribution,
-    pane: props.pane,
-  };
-
-  const methods = {
-    setAttribution(val, old) {
-      const attributionControl = this.$parent.leafletObject.attributionControl;
-      attributionControl.removeAttribution(old).addAttribution(val);
-    },
-    setName() {
-      removeLayer(leafletRef.value);
-      if (props.visible) {
-        addLayer(leafletRef.value);
-      }
-    },
-    setLayerType() {
-      removeLayer(leafletRef.value);
-      if (props.visible) {
-        addLayer(leafletRef.value);
-      }
-    },
-    setVisible(isVisible) {
-      if (leafletRef.value) {
-        if (isVisible) {
-          addLayer(leafletRef.value);
-        } else {
-          removeLayer(leafletRef.value);
-        }
-      }
-    },
-    bindPopup({ leafletObject }) {
-      leafletRef.value.bindPopup(leafletObject);
-    },
-    bindTooltip({ leafletObject }) {
-      leafletRef.value.bindTooltip(leafletObject);
-    },
-    unbindTooltip() {
-      const tooltip = leafletRef.value ? leafletRef.value.getTooltip() : null;
-      if (tooltip) {
-        tooltip.unbindTooltip();
-      }
-    },
-    unbindPopup() {
-      const popup = leafletRef.value ? leafletRef.value.getPopup() : null;
-      if (popup) {
-        popup.unbindPopup();
-      }
-    },
-    updateVisibleProp(value) {
-      /**
-       * Triggers when the visible prop needs to be updated
-       * @type {boolean}
-       * @property {boolean} value - value of the visible property
-       */
-      context.emit("update:visible", value);
-    },
-  };
-
-  Object(vue__WEBPACK_IMPORTED_MODULE_0__["provide"])("bindPopup", methods.bindPopup);
-  Object(vue__WEBPACK_IMPORTED_MODULE_0__["provide"])("bindTooltip", methods.bindTooltip);
-  Object(vue__WEBPACK_IMPORTED_MODULE_0__["provide"])("unbindTooltip", methods.unbindTooltip);
-  Object(vue__WEBPACK_IMPORTED_MODULE_0__["provide"])("unbindPopup", methods.unbindPopup);
-
-  Object(vue__WEBPACK_IMPORTED_MODULE_0__["onUnmounted"])(() => {
-    methods.unbindPopup();
-    methods.unbindTooltip();
-    removeLayer({ leafletObject: leafletRef.value });
-  });
-
-  return { options, methods };
-};
-
-const render$2 = (ready, context) => () => {
-  if (ready.value && context.slots.default) {
-    return Object(vue__WEBPACK_IMPORTED_MODULE_0__["h"])("div", { style: { display: "none" } }, context.slots.default());
-  }
-  return null;
-};
-
-const props$3 = {
-  ...props$2,
+const props$a = {
+  ...props,
   pane: {
     type: String,
     default: "markerPane",
@@ -14409,8 +15006,8 @@ const props$3 = {
   },
 };
 
-const setup$3 = (props, leafletRef, context) => {
-  const { options: layerOptions, methods: layerMethods } = setup$2(
+const setup$a = (props, leafletRef, context) => {
+  const { options: layerOptions, methods: layerMethods } = setup(
     props,
     leafletRef,
     context
@@ -14457,9 +15054,9 @@ const setup$3 = (props, leafletRef, context) => {
 /**
  * Marker component, lets you add and personalize markers on the map
  */
-var script$2 = {
+var script$8 = {
   name: "LMarker",
-  props: props$3,
+  props: props$a,
   setup(props, context) {
     const leafletRef = Object(vue__WEBPACK_IMPORTED_MODULE_0__["ref"])({});
     const ready = Object(vue__WEBPACK_IMPORTED_MODULE_0__["ref"])(false);
@@ -14476,7 +15073,7 @@ var script$2 = {
       "setIcon",
       (newIcon) => leafletRef.value.setIcon && leafletRef.value.setIcon(newIcon)
     );
-    const { options, methods } = setup$3(props, leafletRef, context);
+    const { options, methods } = setup$a(props, leafletRef, context);
 
     Object(vue__WEBPACK_IMPORTED_MODULE_0__["onMounted"])(async () => {
       const {
@@ -14502,18 +15099,18 @@ var script$2 = {
       ready.value = true;
     });
 
-    return render$2(ready, context);
+    return render(ready, context);
   },
 };
 
-const render$3 = () => {};
+const render$a = () => {};
 
 
-script$2.render = render$3;
-script$2.__file = "src/components/LMarker.vue";
+script$8.render = render$a;
+script$8.__file = "src/components/LMarker.vue";
 
-const props$4 = {
-  ...props$2,
+const props$b = {
+  ...props,
   pane: {
     type: String,
     default: "tilePane",
@@ -14537,8 +15134,8 @@ const props$4 = {
   },
 };
 
-const setup$4 = (props, leafletRef) => {
-  const { options: layerOptions, methods: layerMethods } = setup$2(
+const setup$b = (props, leafletRef) => {
+  const { options: layerOptions, methods: layerMethods } = setup(
     props,
     leafletRef
   );
@@ -14553,8 +15150,8 @@ const setup$4 = (props, leafletRef) => {
   return { options, methods: { ...layerMethods } };
 };
 
-const props$5 = {
-  ...props$4,
+const props$c = {
+  ...props$b,
   tms: {
     type: Boolean,
     default: false,
@@ -14573,11 +15170,11 @@ const props$5 = {
   },
 };
 
-const setup$5 = (props, leafletRef) => {
+const setup$c = (props, leafletRef) => {
   const {
     options: gridLayerOptions,
     methods: gridLayerMethods,
-  } = setup$4(props, leafletRef);
+  } = setup$b(props, leafletRef);
   const options = {
     ...gridLayerOptions,
     tms: props.tms,
@@ -14592,14 +15189,14 @@ const setup$5 = (props, leafletRef) => {
   };
 };
 
-var script$3 = {
-  props: props$5,
+var script$9 = {
+  props: props$c,
   setup(props, context) {
     const leafletRef = Object(vue__WEBPACK_IMPORTED_MODULE_0__["ref"])({});
 
     const addLayer = Object(vue__WEBPACK_IMPORTED_MODULE_0__["inject"])("addLayer");
 
-    const { options, methods } = setup$5(props, leafletRef);
+    const { options, methods } = setup$c(props, leafletRef);
 
     Object(vue__WEBPACK_IMPORTED_MODULE_0__["onMounted"])(async () => {
       const { tileLayer, DomEvent, setOptions } = await __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! leaflet/dist/leaflet-src.esm */ "./node_modules/leaflet/dist/leaflet-src.esm.js"));
@@ -14621,13 +15218,13 @@ var script$3 = {
   },
 };
 
-const render$4 = () => {};
+const render$b = () => {};
 
 
-script$3.render = render$4;
-script$3.__file = "src/components/LTileLayer.vue";
+script$9.render = render$b;
+script$9.__file = "src/components/LTileLayer.vue";
 
-const props$6 = {
+const props$d = {
   iconUrl: {
     type: String,
     custom: true,
@@ -14698,9 +15295,9 @@ const props$6 = {
 /**
  * Icon component, lets you add and custom icons to the map
  */
-var script$4 = {
+var script$a = {
   name: "LIcon",
-  props: props$6,
+  props: props$d,
   setup(props, context) {
     const root = Object(vue__WEBPACK_IMPORTED_MODULE_0__["ref"])(null);
 
@@ -14794,187 +15391,14 @@ var script$4 = {
   },
 };
 
-const render$5 = () => {};
+const render$c = () => {};
 
 
-script$4.render = render$5;
-script$4.__file = "src/components/LIcon.vue";
+script$a.render = render$c;
+script$a.__file = "src/components/LIcon.vue";
 
-const props$7 = {
-  interactive: {
-    type: Boolean,
-    default: true,
-  },
-  bubblingMouseEvents: {
-    type: Boolean,
-    default: true,
-  },
-};
-
-const setup$6 = (props) => {
-  const options = {
-    interactive: props.interactive,
-    bubblingMouseEvents: props.bubblingMouseEvents,
-  };
-
-  const methods = {};
-
-  return { options, methods };
-};
-
-const props$8 = {
+const props$e = {
   ...props$2,
-  ...props$7,
-  stroke: {
-    type: Boolean,
-    custom: true,
-    default: true,
-  },
-  color: {
-    type: String,
-    custom: true,
-    default: "#3388ff",
-  },
-  weight: {
-    type: Number,
-    custom: true,
-    default: 3,
-  },
-  opacity: {
-    type: Number,
-    custom: true,
-    default: 1.0,
-  },
-  lineCap: {
-    type: String,
-    custom: true,
-    default: "round",
-  },
-  lineJoin: {
-    type: String,
-    custom: true,
-    default: "round",
-  },
-  dashArray: {
-    type: String,
-    custom: true,
-    default: null,
-  },
-  dashOffset: {
-    type: String,
-    custom: true,
-    default: null,
-  },
-  fill: {
-    type: Boolean,
-    custom: true,
-    default: false,
-  },
-  fillColor: {
-    type: String,
-    custom: true,
-    default: "#3388ff",
-  },
-  fillOpacity: {
-    type: Number,
-    custom: true,
-    default: 0.2,
-  },
-  fillRule: {
-    type: String,
-    custom: true,
-    default: "evenodd",
-  },
-  className: {
-    type: String,
-    custom: true,
-    default: null,
-  },
-};
-
-const setup$7 = (props, leafletRef, context) => {
-  const { options: layerOptions, methods: layerMethods } = setup$2(
-    props,
-    leafletRef,
-    context
-  );
-  const {
-    options: interactiveLayerOptions,
-    methods: interactiveLayerMethods,
-  } = setup$6(props);
-
-  const removeLayer = Object(vue__WEBPACK_IMPORTED_MODULE_0__["inject"])("removeLayer");
-
-  const options = {
-    ...layerOptions,
-    ...interactiveLayerOptions,
-    stroke: props.stroke,
-    color: props.color,
-    weight: props.weight,
-    opacity: props.opacity,
-    lineCap: props.lineCap,
-    lineJoin: props.lineJoin,
-    dashArray: props.dashArray,
-    dashOffset: props.dashOffset,
-    fill: props.fill,
-    fillColor: props.fillColor,
-    fillOpacity: props.fillOpacity,
-    fillRule: props.fillRule,
-    className: props.className,
-  };
-  const methods = {
-    ...layerMethods,
-    ...interactiveLayerMethods,
-    setStroke(stroke) {
-      leafletRef.value.setStyle({ stroke });
-    },
-    setColor(color) {
-      leafletRef.value.setStyle({ color });
-    },
-    setWeight(weight) {
-      leafletRef.value.setStyle({ weight });
-    },
-    setOpacity(opacity) {
-      leafletRef.value.setStyle({ opacity });
-    },
-    setLineCap(lineCap) {
-      leafletRef.value.setStyle({ lineCap });
-    },
-    setLineJoin(lineJoin) {
-      leafletRef.value.setStyle({ lineJoin });
-    },
-    setDashArray(dashArray) {
-      leafletRef.value.setStyle({ dashArray });
-    },
-    setDashOffset(dashOffset) {
-      leafletRef.value.setStyle({ dashOffset });
-    },
-    setFill(fill) {
-      leafletRef.value.setStyle({ fill });
-    },
-    setFillColor(fillColor) {
-      leafletRef.value.setStyle({ fillColor });
-    },
-    setFillOpacity(fillOpacity) {
-      leafletRef.value.setStyle({ fillOpacity });
-    },
-    setFillRule(fillRule) {
-      leafletRef.value.setStyle({ fillRule });
-    },
-    setClassName(className) {
-      leafletRef.value.setStyle({ className });
-    },
-  };
-
-  Object(vue__WEBPACK_IMPORTED_MODULE_0__["onBeforeUnmount"])(() => {
-    removeLayer();
-  });
-
-  return { options, methods };
-};
-
-const props$9 = {
-  ...props$8,
   latLngs: {
     type: Array,
     default: () => [],
@@ -14991,8 +15415,8 @@ const props$9 = {
   },
 };
 
-const setup$8 = (props, leafletRef, context) => {
-  const { options: pathOptions, methods: pathMethods } = setup$7(
+const setup$d = (props, leafletRef, context) => {
+  const { options: pathOptions, methods: pathMethods } = setup$2(
     props,
     leafletRef,
     context
@@ -15020,16 +15444,16 @@ const setup$8 = (props, leafletRef, context) => {
 /**
  * Polyline component, lets you add and personalize polylines on the map
  */
-var script$5 = {
+var script$b = {
   name: "LPolyline",
-  props: props$9,
+  props: props$e,
   setup(props, context) {
     const leafletRef = Object(vue__WEBPACK_IMPORTED_MODULE_0__["ref"])({});
     const ready = Object(vue__WEBPACK_IMPORTED_MODULE_0__["ref"])(false);
 
     const addLayer = Object(vue__WEBPACK_IMPORTED_MODULE_0__["inject"])("addLayer");
 
-    const { options, methods } = setup$8(props, leafletRef, context);
+    const { options, methods } = setup$d(props, leafletRef, context);
 
     Object(vue__WEBPACK_IMPORTED_MODULE_0__["onMounted"])(async () => {
       const { polyline, DomEvent, setOptions } = await __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! leaflet/dist/leaflet-src.esm */ "./node_modules/leaflet/dist/leaflet-src.esm.js"));
@@ -15048,24 +15472,24 @@ var script$5 = {
       });
       ready.value = true;
     });
-    return render$2(ready, context);
+    return render(ready, context);
   },
 };
 
-const render$6 = () => {};
+const render$d = () => {};
 
 
-script$5.render = render$6;
-script$5.__file = "src/components/LPolyline.vue";
+script$b.render = render$d;
+script$b.__file = "src/components/LPolyline.vue";
 
-const props$a = {
+const props$f = {
   content: {
     type: String,
     default: null,
   },
 };
 
-const setup$9 = (props, leafletRef) => {
+const setup$e = (props, leafletRef) => {
   const options = {};
   const methods = {
     setContent(newVal) {
@@ -15077,19 +15501,19 @@ const setup$9 = (props, leafletRef) => {
   return { options, methods };
 };
 
-const render$7 = (root, context) => () => {
+const render$e = (root, context) => () => {
   if (context.slots.default) {
     return Object(vue__WEBPACK_IMPORTED_MODULE_0__["h"])("div", { ref: root }, context.slots.default());
   }
   return null;
 };
 
-const props$b = {
-  ...props$a,
+const props$g = {
+  ...props$f,
 };
 
-const setup$a = (props, leafletRef) => {
-  const { options, methods } = setup$9(props, leafletRef);
+const setup$f = (props, leafletRef) => {
+  const { options, methods } = setup$e(props, leafletRef);
   const unbindTooltip = Object(vue__WEBPACK_IMPORTED_MODULE_0__["inject"])("unbindTooltip");
 
   Object(vue__WEBPACK_IMPORTED_MODULE_0__["onBeforeUnmount"])(() => {
@@ -15102,15 +15526,15 @@ const setup$a = (props, leafletRef) => {
 /**
  * Display a tooltip on the map
  */
-var script$6 = {
+var script$c = {
   name: "LTooltip",
-  props: props$b,
+  props: props$g,
   setup(props, context) {
     const leafletRef = Object(vue__WEBPACK_IMPORTED_MODULE_0__["ref"])({});
     const root = Object(vue__WEBPACK_IMPORTED_MODULE_0__["ref"])(null);
 
     const bindTooltip = Object(vue__WEBPACK_IMPORTED_MODULE_0__["inject"])("bindTooltip");
-    const { options, methods } = setup$a(props, leafletRef);
+    const { options, methods } = setup$f(props, leafletRef);
 
     Object(vue__WEBPACK_IMPORTED_MODULE_0__["onMounted"])(async () => {
       const { tooltip, DomEvent, setOptions } = await __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! leaflet/dist/leaflet-src.esm */ "./node_modules/leaflet/dist/leaflet-src.esm.js"));
@@ -15123,26 +15547,26 @@ var script$6 = {
       leafletRef.value.setContent(props.content || root.value);
       bindTooltip({ leafletObject: leafletRef.value });
     });
-    return render$7(root, context);
+    return render$e(root, context);
   },
 };
 
-const render$8 = () => {};
+const render$f = () => {};
 
 
-script$6.render = render$8;
-script$6.__file = "src/components/LTooltip.vue";
+script$c.render = render$f;
+script$c.__file = "src/components/LTooltip.vue";
 
-const props$c = {
-  ...props$a,
+const props$h = {
+  ...props$f,
   latLng: {
     type: [Object, Array],
     default: () => [],
   },
 };
 
-const setup$b = (props, leafletRef) => {
-  const { options, methods } = setup$9(props, leafletRef);
+const setup$g = (props, leafletRef) => {
+  const { options, methods } = setup$e(props, leafletRef);
   const unbindPopup = Object(vue__WEBPACK_IMPORTED_MODULE_0__["inject"])("unbindPopup");
 
   Object(vue__WEBPACK_IMPORTED_MODULE_0__["onBeforeUnmount"])(() => {
@@ -15155,15 +15579,15 @@ const setup$b = (props, leafletRef) => {
 /**
  * Display a popup on the map
  */
-var script$7 = {
+var script$d = {
   name: "LPopup",
-  props: props$c,
+  props: props$h,
   setup(props, context) {
     const leafletRef = Object(vue__WEBPACK_IMPORTED_MODULE_0__["ref"])({});
     const root = Object(vue__WEBPACK_IMPORTED_MODULE_0__["ref"])(null);
 
     const bindPopup = Object(vue__WEBPACK_IMPORTED_MODULE_0__["inject"])("bindPopup");
-    const { options, methods } = setup$b(props, leafletRef);
+    const { options, methods } = setup$g(props, leafletRef);
 
     Object(vue__WEBPACK_IMPORTED_MODULE_0__["onMounted"])(async () => {
       const { popup, DomEvent, setOptions } = await __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! leaflet/dist/leaflet-src.esm */ "./node_modules/leaflet/dist/leaflet-src.esm.js"));
@@ -15180,22 +15604,22 @@ var script$7 = {
       leafletRef.value.setContent(props.content || root.value);
       bindPopup({ leafletObject: leafletRef.value });
     });
-    return render$7(root, context);
+    return render$e(root, context);
   },
 };
 
-const render$9 = () => {};
+const render$g = () => {};
 
 
-script$7.render = render$9;
-script$7.__file = "src/components/LPopup.vue";
+script$d.render = render$g;
+script$d.__file = "src/components/LPopup.vue";
 
-const props$d = {
-  ...props$9,
+const props$i = {
+  ...props$e,
 };
 
-const setup$c = (props, leafletRef, context) => {
-  const { options: polylineOptions, methods: polylineMethods } = setup$8(
+const setup$h = (props, leafletRef, context) => {
+  const { options: polylineOptions, methods: polylineMethods } = setup$d(
     props,
     leafletRef,
     context
@@ -15218,15 +15642,15 @@ const setup$c = (props, leafletRef, context) => {
 /**
  * Polygon component, lets you add and customize polygon regions on the map
  */
-var script$8 = {
+var script$e = {
   name: "LPolygon",
-  props: props$d,
+  props: props$i,
   setup(props, context) {
     const leafletRef = Object(vue__WEBPACK_IMPORTED_MODULE_0__["ref"])({});
     const ready = Object(vue__WEBPACK_IMPORTED_MODULE_0__["ref"])(false);
     const addLayer = Object(vue__WEBPACK_IMPORTED_MODULE_0__["inject"])("addLayer");
 
-    const { options, methods } = setup$c(props, leafletRef, context);
+    const { options, methods } = setup$h(props, leafletRef, context);
 
     Object(vue__WEBPACK_IMPORTED_MODULE_0__["onMounted"])(async () => {
       const { polygon, DomEvent, setOptions } = await __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! leaflet/dist/leaflet-src.esm */ "./node_modules/leaflet/dist/leaflet-src.esm.js"));
@@ -15246,26 +15670,26 @@ var script$8 = {
       ready.value = true;
     });
 
-    return render$2(ready, context);
+    return render(ready, context);
   },
 };
 
-const render$a = () => {};
+const render$h = () => {};
 
 
-script$8.render = render$a;
-script$8.__file = "src/components/LPolygon.vue";
+script$e.render = render$h;
+script$e.__file = "src/components/LPolygon.vue";
 
-const props$e = {
-  ...props$d,
+const props$j = {
+  ...props$i,
   bounds: {
     type: Array,
     default: undefined,
   },
 };
 
-const setup$d = (props, leafletRef, context) => {
-  const { options: polygonOptions, methods: polygonMethods } = setup$c(
+const setup$i = (props, leafletRef, context) => {
+  const { options: polygonOptions, methods: polygonMethods } = setup$h(
     props,
     leafletRef,
     context
@@ -15295,15 +15719,15 @@ const setup$d = (props, leafletRef, context) => {
 /**
  * Rectangle component, lets you add and customize rectangular regions on the map
  */
-var script$9 = {
+var script$f = {
   name: "LRectangle",
-  props: props$e,
+  props: props$j,
   setup(props, context) {
     const leafletRef = Object(vue__WEBPACK_IMPORTED_MODULE_0__["ref"])({});
     const ready = Object(vue__WEBPACK_IMPORTED_MODULE_0__["ref"])(false);
     const addLayer = Object(vue__WEBPACK_IMPORTED_MODULE_0__["inject"])("addLayer");
 
-    const { options, methods } = setup$d(props, leafletRef, context);
+    const { options, methods } = setup$i(props, leafletRef, context);
 
     Object(vue__WEBPACK_IMPORTED_MODULE_0__["onMounted"])(async () => {
       const { rectangle, latLngBounds, DomEvent, setOptions } = await __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! leaflet/dist/leaflet-src.esm */ "./node_modules/leaflet/dist/leaflet-src.esm.js"));
@@ -15327,15 +15751,247 @@ var script$9 = {
       ready.value = true;
     });
 
-    return render$2(ready, context);
+    return render(ready, context);
   },
 };
 
-const render$b = () => {};
+const render$i = () => {};
 
 
-script$9.render = render$b;
-script$9.__file = "src/components/LRectangle.vue";
+script$f.render = render$i;
+script$f.__file = "src/components/LRectangle.vue";
+
+const props$k = {
+  ...props$c,
+  baseUrl: {
+    type: String,
+    default: null,
+    required: true,
+  },
+  layers: {
+    type: String,
+    default: "",
+  },
+  styles: {
+    type: String,
+    default: "",
+  },
+  format: {
+    type: String,
+    default: "image/jpeg",
+  },
+  transparent: {
+    type: Boolean,
+    custom: false,
+  },
+  version: {
+    type: String,
+    default: "1.1.1",
+  },
+  crs: {
+    default: null,
+  },
+  upperCase: {
+    type: Boolean,
+    default: false,
+  },
+};
+
+const setup$j = (props, leafletRef) => {
+  const {
+    options: tileLayerOptions,
+    methods: tileLayerMethods,
+  } = setup$c(props, leafletRef);
+  const options = {
+    ...tileLayerOptions,
+    layers: props.layers,
+    styles: props.styles,
+    format: props.format,
+    transparent: props.transparent,
+    version: props.version,
+    crs: props.crs,
+    upperCase: props.upperCase,
+  };
+  return {
+    options,
+    methods: {
+      ...tileLayerMethods,
+    },
+  };
+};
+
+var script$g = {
+  props: props$k,
+  setup(props, context) {
+    const leafletRef = Object(vue__WEBPACK_IMPORTED_MODULE_0__["ref"])({});
+
+    const addLayer = Object(vue__WEBPACK_IMPORTED_MODULE_0__["inject"])("addLayer");
+
+    const { options, methods } = setup$j(props, leafletRef);
+
+    Object(vue__WEBPACK_IMPORTED_MODULE_0__["onMounted"])(async () => {
+      const { tileLayer, DomEvent, setOptions } = await __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! leaflet/dist/leaflet-src.esm */ "./node_modules/leaflet/dist/leaflet-src.esm.js"));
+
+      leafletRef.value = tileLayer.wms(props.baseUrl, options);
+
+      const listeners = remapEvents(context.attrs);
+      DomEvent.on(leafletRef.value, listeners);
+
+      propsBinder(methods, leafletRef.value, props, setOptions);
+      addLayer({
+        ...props,
+        ...methods,
+        leafletObject: leafletRef.value,
+      });
+    });
+  },
+  render() {
+    return null;
+  },
+};
+
+const render$j = () => {};
+
+
+script$g.render = render$j;
+script$g.__file = "src/components/LWmsTileLayer.vue";
+
+const props$l = {
+  ...props,
+};
+
+const setup$k = (props, leafletRef) => {
+  const { options: layerOptions, methods: layerMethods } = setup(
+    props,
+    leafletRef
+  );
+
+  const options = {
+    ...layerOptions,
+  };
+
+  const methods = {
+    ...layerMethods,
+    addLayer(layer) {
+      leafletRef.value.addLayer(layer.leafletObject);
+    },
+    removeLayer(layer) {
+      leafletRef.value.removeLayer(layer.leafletObject);
+    },
+  };
+
+  Object(vue__WEBPACK_IMPORTED_MODULE_0__["provide"])("addLayer", methods.addLayer);
+  Object(vue__WEBPACK_IMPORTED_MODULE_0__["provide"])("removeLayer", methods.removeLayer);
+
+  return { options, methods };
+};
+
+var script$h = {
+  props: props$l,
+  setup(props, context) {
+    const leafletRef = Object(vue__WEBPACK_IMPORTED_MODULE_0__["ref"])({});
+    const ready = Object(vue__WEBPACK_IMPORTED_MODULE_0__["ref"])(false);
+
+    const addLayer = Object(vue__WEBPACK_IMPORTED_MODULE_0__["inject"])("addLayer");
+
+    const { methods } = setup$k(props, leafletRef);
+
+    Object(vue__WEBPACK_IMPORTED_MODULE_0__["onMounted"])(async () => {
+      const { layerGroup, DomEvent, setOptions } = await __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! leaflet/dist/leaflet-src.esm */ "./node_modules/leaflet/dist/leaflet-src.esm.js"));
+      leafletRef.value = layerGroup();
+
+      const listeners = remapEvents(context.attrs);
+      DomEvent.on(leafletRef.value, listeners);
+
+      propsBinder(methods, leafletRef.value, props, setOptions);
+      addLayer({
+        ...props,
+        ...methods,
+        leafletObject: leafletRef.value,
+      });
+      ready.value = true;
+    });
+    return render(ready, context);
+  },
+};
+
+const render$k = () => {};
+
+
+script$h.render = render$k;
+script$h.__file = "src/components/LLayerGroup.vue";
+
+const props$m = {
+  ...props$l,
+  geojson: {
+    type: [Object, Array],
+    default: () => ({}),
+  },
+};
+
+const setup$l = (props, leafletRef) => {
+  const { options: layerOptions, methods: layerGroupMethods } = setup$k(
+    props,
+    leafletRef
+  );
+
+  const options = {
+    ...layerOptions,
+    ...props,
+  };
+
+  const methods = {
+    ...layerGroupMethods,
+    setGeojson(newVal) {
+      leafletRef.value.clearLayers();
+      leafletRef.value.addData(newVal);
+    },
+    getGeoJSONData() {
+      return leafletRef.value.toGeoJSON();
+    },
+    getBounds() {
+      return leafletRef.value.getBounds();
+    },
+  };
+
+  return { options, methods };
+};
+
+var script$i = {
+  props: props$m,
+  setup(props, context) {
+    const leafletRef = Object(vue__WEBPACK_IMPORTED_MODULE_0__["ref"])({});
+    const ready = Object(vue__WEBPACK_IMPORTED_MODULE_0__["ref"])(false);
+
+    const addLayer = Object(vue__WEBPACK_IMPORTED_MODULE_0__["inject"])("addLayer");
+
+    const { methods, options } = setup$l(props, leafletRef);
+
+    Object(vue__WEBPACK_IMPORTED_MODULE_0__["onMounted"])(async () => {
+      const { geoJSON, DomEvent, setOptions } = await __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! leaflet/dist/leaflet-src.esm */ "./node_modules/leaflet/dist/leaflet-src.esm.js"));
+
+      leafletRef.value = geoJSON(props.geojson, options);
+
+      const listeners = remapEvents(context.attrs);
+      DomEvent.on(leafletRef.value, listeners);
+
+      propsBinder(methods, leafletRef.value, props, setOptions);
+      addLayer({
+        ...props,
+        ...methods,
+        leafletObject: leafletRef.value,
+      });
+      ready.value = true;
+    });
+    return render(ready, context);
+  },
+};
+
+const render$l = () => {};
+
+
+script$i.render = render$l;
+script$i.__file = "src/components/LGeoJson.vue";
 
 
 //# sourceMappingURL=vue-leaflet.esm.js.map
@@ -31638,6 +32294,11 @@ __webpack_require__.r(__webpack_exports__);
           iconSize: [51, 58]
         });
       });
+      let bounds = leaflet__WEBPACK_IMPORTED_MODULE_0___default.a.latLngBounds(leaflet__WEBPACK_IMPORTED_MODULE_0___default.a.featureGroup(this.getSearchedItemMarkers()).getBounds());
+      console.log('bounds', bounds);
+      this.map.fitBounds(bounds, {
+        maxZoom: 13
+      });
       this.boundsUpdated(this.map.getBounds(), this.zoom - 3);
       this.map.on('dragend', () => {
         this.boundsUpdated(this.map.getBounds(), this.zoom - 3);
@@ -31645,6 +32306,20 @@ __webpack_require__.r(__webpack_exports__);
       this.map.on('zoomend', () => {
         this.boundsUpdated(this.map.getBounds(), this.zoom - 3);
       });
+    },
+
+    getSearchedItemMarkers() {
+      let markerArray = [];
+      markerArray = [leaflet__WEBPACK_IMPORTED_MODULE_0___default.a.marker([51, 6], {
+        icon: this.icon
+      }), leaflet__WEBPACK_IMPORTED_MODULE_0___default.a.marker([52, 7], {
+        icon: this.icon
+      }), leaflet__WEBPACK_IMPORTED_MODULE_0___default.a.marker([53, 8], {
+        icon: this.icon
+      }), leaflet__WEBPACK_IMPORTED_MODULE_0___default.a.marker([54, 9], {
+        icon: this.icon
+      })];
+      return markerArray;
     },
 
     boundsUpdated(bounds, zoom = this.zoom) {
@@ -31691,10 +32366,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/App.vue?vue&type=template&id=f348271a&scoped=true&bindings={\"zoom\":\"data\",\"center\":\"data\",\"defaultMarkerIcon\":\"data\",\"currentAccoIcon\":\"data\",\"markerData\":\"data\",\"markerDataAccos\":\"data\",\"markers\":\"data\",\"zoomUpdated\":\"options\",\"centerUpdated\":\"options\",\"ready\":\"options\",\"boundsUpdated\":\"options\",\"getAccommodations\":\"options\",\"getPois\":\"options\",\"randArray\":\"options\"}":
-/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--27-0!./resources/js/App.vue?vue&type=template&id=f348271a&scoped=true&bindings={"zoom":"data","center":"data","defaultMarkerIcon":"data","currentAccoIcon":"data","markerData":"data","markerDataAccos":"data","markers":"data","zoomUpdated":"options","centerUpdated":"options","ready":"options","boundsUpdated":"options","getAccommodations":"options","getPois":"options","randArray":"options"} ***!
-  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/App.vue?vue&type=template&id=f348271a&scoped=true&bindings={\"zoom\":\"data\",\"center\":\"data\",\"defaultMarkerIcon\":\"data\",\"currentAccoIcon\":\"data\",\"markerData\":\"data\",\"markerDataAccos\":\"data\",\"markers\":\"data\",\"zoomUpdated\":\"options\",\"centerUpdated\":\"options\",\"ready\":\"options\",\"getSearchedItemMarkers\":\"options\",\"boundsUpdated\":\"options\",\"getAccommodations\":\"options\",\"getPois\":\"options\",\"randArray\":\"options\"}":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--27-0!./resources/js/App.vue?vue&type=template&id=f348271a&scoped=true&bindings={"zoom":"data","center":"data","defaultMarkerIcon":"data","currentAccoIcon":"data","markerData":"data","markerDataAccos":"data","markers":"data","zoomUpdated":"options","centerUpdated":"options","ready":"options","getSearchedItemMarkers":"options","boundsUpdated":"options","getAccommodations":"options","getPois":"options","randArray":"options"} ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -31791,7 +32466,27 @@ const render = /*#__PURE__*/_withId(function render(_ctx, _cache, $props, $setup
       _: 1
     }, 8
     /* PROPS */
-    , ["lat-lng"])]),
+    , ["lat-lng"]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])(_component_l_marker, {
+      "lat-lng": [51, 6],
+      icon: $data.currentAccoIcon
+    }, null, 8
+    /* PROPS */
+    , ["icon"]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])(_component_l_marker, {
+      "lat-lng": [52, 7],
+      icon: $data.currentAccoIcon
+    }, null, 8
+    /* PROPS */
+    , ["icon"]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])(_component_l_marker, {
+      "lat-lng": [53, 8],
+      icon: $data.currentAccoIcon
+    }, null, 8
+    /* PROPS */
+    , ["icon"]), Object(vue__WEBPACK_IMPORTED_MODULE_0__["createVNode"])(_component_l_marker, {
+      "lat-lng": [54, 9],
+      icon: $data.currentAccoIcon
+    }, null, 8
+    /* PROPS */
+    , ["icon"])]),
     _: 1
   }, 8
   /* PROPS */
@@ -65841,12 +66536,12 @@ module.exports = function(module) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _App_vue_vue_type_template_id_f348271a_scoped_true_bindings_zoom_data_center_data_defaultMarkerIcon_data_currentAccoIcon_data_markerData_data_markerDataAccos_data_markers_data_zoomUpdated_options_centerUpdated_options_ready_options_boundsUpdated_options_getAccommodations_options_getPois_options_randArray_options___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./App.vue?vue&type=template&id=f348271a&scoped=true&bindings={"zoom":"data","center":"data","defaultMarkerIcon":"data","currentAccoIcon":"data","markerData":"data","markerDataAccos":"data","markers":"data","zoomUpdated":"options","centerUpdated":"options","ready":"options","boundsUpdated":"options","getAccommodations":"options","getPois":"options","randArray":"options"} */ "./resources/js/App.vue?vue&type=template&id=f348271a&scoped=true&bindings={\"zoom\":\"data\",\"center\":\"data\",\"defaultMarkerIcon\":\"data\",\"currentAccoIcon\":\"data\",\"markerData\":\"data\",\"markerDataAccos\":\"data\",\"markers\":\"data\",\"zoomUpdated\":\"options\",\"centerUpdated\":\"options\",\"ready\":\"options\",\"boundsUpdated\":\"options\",\"getAccommodations\":\"options\",\"getPois\":\"options\",\"randArray\":\"options\"}");
+/* harmony import */ var _App_vue_vue_type_template_id_f348271a_scoped_true_bindings_zoom_data_center_data_defaultMarkerIcon_data_currentAccoIcon_data_markerData_data_markerDataAccos_data_markers_data_zoomUpdated_options_centerUpdated_options_ready_options_getSearchedItemMarkers_options_boundsUpdated_options_getAccommodations_options_getPois_options_randArray_options___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./App.vue?vue&type=template&id=f348271a&scoped=true&bindings={"zoom":"data","center":"data","defaultMarkerIcon":"data","currentAccoIcon":"data","markerData":"data","markerDataAccos":"data","markers":"data","zoomUpdated":"options","centerUpdated":"options","ready":"options","getSearchedItemMarkers":"options","boundsUpdated":"options","getAccommodations":"options","getPois":"options","randArray":"options"} */ "./resources/js/App.vue?vue&type=template&id=f348271a&scoped=true&bindings={\"zoom\":\"data\",\"center\":\"data\",\"defaultMarkerIcon\":\"data\",\"currentAccoIcon\":\"data\",\"markerData\":\"data\",\"markerDataAccos\":\"data\",\"markers\":\"data\",\"zoomUpdated\":\"options\",\"centerUpdated\":\"options\",\"ready\":\"options\",\"getSearchedItemMarkers\":\"options\",\"boundsUpdated\":\"options\",\"getAccommodations\":\"options\",\"getPois\":\"options\",\"randArray\":\"options\"}");
 /* harmony import */ var _App_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./App.vue?vue&type=script&lang=js */ "./resources/js/App.vue?vue&type=script&lang=js");
 /* empty/unused harmony star reexport */
 
 
-_App_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].render = _App_vue_vue_type_template_id_f348271a_scoped_true_bindings_zoom_data_center_data_defaultMarkerIcon_data_currentAccoIcon_data_markerData_data_markerDataAccos_data_markers_data_zoomUpdated_options_centerUpdated_options_ready_options_boundsUpdated_options_getAccommodations_options_getPois_options_randArray_options___WEBPACK_IMPORTED_MODULE_0__["render"]
+_App_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].render = _App_vue_vue_type_template_id_f348271a_scoped_true_bindings_zoom_data_center_data_defaultMarkerIcon_data_currentAccoIcon_data_markerData_data_markerDataAccos_data_markers_data_zoomUpdated_options_centerUpdated_options_ready_options_getSearchedItemMarkers_options_boundsUpdated_options_getAccommodations_options_getPois_options_randArray_options___WEBPACK_IMPORTED_MODULE_0__["render"]
 _App_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].__scopeId = "data-v-f348271a"
 /* hot reload */
 if (false) {}
@@ -65873,17 +66568,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/App.vue?vue&type=template&id=f348271a&scoped=true&bindings={\"zoom\":\"data\",\"center\":\"data\",\"defaultMarkerIcon\":\"data\",\"currentAccoIcon\":\"data\",\"markerData\":\"data\",\"markerDataAccos\":\"data\",\"markers\":\"data\",\"zoomUpdated\":\"options\",\"centerUpdated\":\"options\",\"ready\":\"options\",\"boundsUpdated\":\"options\",\"getAccommodations\":\"options\",\"getPois\":\"options\",\"randArray\":\"options\"}":
-/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./resources/js/App.vue?vue&type=template&id=f348271a&scoped=true&bindings={"zoom":"data","center":"data","defaultMarkerIcon":"data","currentAccoIcon":"data","markerData":"data","markerDataAccos":"data","markers":"data","zoomUpdated":"options","centerUpdated":"options","ready":"options","boundsUpdated":"options","getAccommodations":"options","getPois":"options","randArray":"options"} ***!
-  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./resources/js/App.vue?vue&type=template&id=f348271a&scoped=true&bindings={\"zoom\":\"data\",\"center\":\"data\",\"defaultMarkerIcon\":\"data\",\"currentAccoIcon\":\"data\",\"markerData\":\"data\",\"markerDataAccos\":\"data\",\"markers\":\"data\",\"zoomUpdated\":\"options\",\"centerUpdated\":\"options\",\"ready\":\"options\",\"getSearchedItemMarkers\":\"options\",\"boundsUpdated\":\"options\",\"getAccommodations\":\"options\",\"getPois\":\"options\",\"randArray\":\"options\"}":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./resources/js/App.vue?vue&type=template&id=f348271a&scoped=true&bindings={"zoom":"data","center":"data","defaultMarkerIcon":"data","currentAccoIcon":"data","markerData":"data","markerDataAccos":"data","markers":"data","zoomUpdated":"options","centerUpdated":"options","ready":"options","getSearchedItemMarkers":"options","boundsUpdated":"options","getAccommodations":"options","getPois":"options","randArray":"options"} ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_27_0_App_vue_vue_type_template_id_f348271a_scoped_true_bindings_zoom_data_center_data_defaultMarkerIcon_data_currentAccoIcon_data_markerData_data_markerDataAccos_data_markers_data_zoomUpdated_options_centerUpdated_options_ready_options_boundsUpdated_options_getAccommodations_options_getPois_options_randArray_options___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../node_modules/babel-loader/lib!../../node_modules/vue-loader/dist/templateLoader.js??ref--6!../../node_modules/vue-loader/dist??ref--27-0!./App.vue?vue&type=template&id=f348271a&scoped=true&bindings={"zoom":"data","center":"data","defaultMarkerIcon":"data","currentAccoIcon":"data","markerData":"data","markerDataAccos":"data","markers":"data","zoomUpdated":"options","centerUpdated":"options","ready":"options","boundsUpdated":"options","getAccommodations":"options","getPois":"options","randArray":"options"} */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/App.vue?vue&type=template&id=f348271a&scoped=true&bindings={\"zoom\":\"data\",\"center\":\"data\",\"defaultMarkerIcon\":\"data\",\"currentAccoIcon\":\"data\",\"markerData\":\"data\",\"markerDataAccos\":\"data\",\"markers\":\"data\",\"zoomUpdated\":\"options\",\"centerUpdated\":\"options\",\"ready\":\"options\",\"boundsUpdated\":\"options\",\"getAccommodations\":\"options\",\"getPois\":\"options\",\"randArray\":\"options\"}");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_27_0_App_vue_vue_type_template_id_f348271a_scoped_true_bindings_zoom_data_center_data_defaultMarkerIcon_data_currentAccoIcon_data_markerData_data_markerDataAccos_data_markers_data_zoomUpdated_options_centerUpdated_options_ready_options_boundsUpdated_options_getAccommodations_options_getPois_options_randArray_options___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_27_0_App_vue_vue_type_template_id_f348271a_scoped_true_bindings_zoom_data_center_data_defaultMarkerIcon_data_currentAccoIcon_data_markerData_data_markerDataAccos_data_markers_data_zoomUpdated_options_centerUpdated_options_ready_options_getSearchedItemMarkers_options_boundsUpdated_options_getAccommodations_options_getPois_options_randArray_options___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../node_modules/babel-loader/lib!../../node_modules/vue-loader/dist/templateLoader.js??ref--6!../../node_modules/vue-loader/dist??ref--27-0!./App.vue?vue&type=template&id=f348271a&scoped=true&bindings={"zoom":"data","center":"data","defaultMarkerIcon":"data","currentAccoIcon":"data","markerData":"data","markerDataAccos":"data","markers":"data","zoomUpdated":"options","centerUpdated":"options","ready":"options","getSearchedItemMarkers":"options","boundsUpdated":"options","getAccommodations":"options","getPois":"options","randArray":"options"} */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/App.vue?vue&type=template&id=f348271a&scoped=true&bindings={\"zoom\":\"data\",\"center\":\"data\",\"defaultMarkerIcon\":\"data\",\"currentAccoIcon\":\"data\",\"markerData\":\"data\",\"markerDataAccos\":\"data\",\"markers\":\"data\",\"zoomUpdated\":\"options\",\"centerUpdated\":\"options\",\"ready\":\"options\",\"getSearchedItemMarkers\":\"options\",\"boundsUpdated\":\"options\",\"getAccommodations\":\"options\",\"getPois\":\"options\",\"randArray\":\"options\"}");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_27_0_App_vue_vue_type_template_id_f348271a_scoped_true_bindings_zoom_data_center_data_defaultMarkerIcon_data_currentAccoIcon_data_markerData_data_markerDataAccos_data_markers_data_zoomUpdated_options_centerUpdated_options_ready_options_getSearchedItemMarkers_options_boundsUpdated_options_getAccommodations_options_getPois_options_randArray_options___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 
 

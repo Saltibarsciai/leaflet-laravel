@@ -15,7 +15,7 @@
         "@bugsnag/plugin-vue": "^6.5.0",
         "@date-io/date-fns": "^2.10.6",
         "@techassi/vue-lazy-image": "^1.0.0",
-        "@vue-leaflet/vue-leaflet": "^0.3.0",
+        "@vue-leaflet/vue-leaflet": "^0.4.0",
         "bootstrap": "^4.5.2",
         "collect.js": "^4.28.2",
         "core-js": "^3.6.5",
