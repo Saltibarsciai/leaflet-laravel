@@ -6,19 +6,12 @@ mix.babelConfig({
     plugins: ['@babel/plugin-syntax-dynamic-import'],
 })
     .webpackConfig({
-        plugins: [
-            __VUE_OPTIONS_API__ => true,
-            __VUE_PROD_DEVTOOLS__ => false
-        ],
-        output: {
-            chunkFilename: 'js/chunks/[name].js?id=[chunkhash]', //separate js to chunks
-            publicPath: '/',
-        },
         resolve: {
             symlinks: false,
             alias: {
                 '@': path.resolve('resources/'),// just to use relative path properly
-                'vue': 'vue/dist/vue.esm-bundler.js'
+                'vue': 'vue/dist/vue.esm-bundler.js',
+                'leaflet': path.join(__dirname, 'node_modules/leaflet')
             },
             extensions: ['*', '.js', '.vue', '.json']
         }
