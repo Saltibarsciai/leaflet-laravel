@@ -13860,29 +13860,33 @@ const setup = (props, leafletRef, context) => {
     pane: props.pane,
   };
 
+  const addThisLayer = () => addLayer({ leafletObject: leafletRef.value });
+  const removeThisLayer = () =>
+    removeLayer({ leafletObject: leafletRef.value });
+
   const methods = {
     setAttribution(val, old) {
       const attributionControl = this.$parent.leafletObject.attributionControl;
       attributionControl.removeAttribution(old).addAttribution(val);
     },
     setName() {
-      removeLayer(leafletRef.value);
+      removeThisLayer();
       if (props.visible) {
-        addLayer(leafletRef.value);
+        addThisLayer();
       }
     },
     setLayerType() {
-      removeLayer(leafletRef.value);
+      removeThisLayer();
       if (props.visible) {
-        addLayer(leafletRef.value);
+        addThisLayer();
       }
     },
     setVisible(isVisible) {
       if (leafletRef.value) {
         if (isVisible) {
-          addLayer(leafletRef.value);
+          addThisLayer();
         } else {
-          removeLayer(leafletRef.value);
+          removeThisLayer();
         }
       }
     },
@@ -13922,7 +13926,7 @@ const setup = (props, leafletRef, context) => {
   Object(vue__WEBPACK_IMPORTED_MODULE_0__["onUnmounted"])(() => {
     methods.unbindPopup();
     methods.unbindTooltip();
-    removeLayer({ leafletObject: leafletRef.value });
+    removeThisLayer();
   });
 
   return { options, methods };
@@ -14102,7 +14106,7 @@ const setup$2 = (props, leafletRef, context) => {
   };
 
   Object(vue__WEBPACK_IMPORTED_MODULE_0__["onBeforeUnmount"])(() => {
-    removeLayer();
+    removeLayer({ leafletObject: leafletRef.value });
   });
 
   return { options, methods };
@@ -15016,7 +15020,6 @@ const setup$a = (props, leafletRef, context) => {
     ...layerOptions,
     ...props,
   };
-  const latLng = Object(vue__WEBPACK_IMPORTED_MODULE_0__["inject"])("latLng");
 
   const methods = {
     ...layerMethods,
@@ -15038,12 +15041,8 @@ const setup$a = (props, leafletRef, context) => {
 
       if (leafletRef.value) {
         const oldLatLng = leafletRef.value.getLatLng();
-        const newLatLng = latLng(newVal);
-        if (
-          newLatLng.lat !== oldLatLng.lat ||
-          newLatLng.lng !== oldLatLng.lng
-        ) {
-          leafletRef.value.setLatLng(newLatLng);
+        if (!oldLatLng || !oldLatLng.equals(newVal)) {
+          leafletRef.value.setLatLng(newVal);
         }
       }
     },
@@ -15063,7 +15062,6 @@ var script$8 = {
 
     const addLayer = Object(vue__WEBPACK_IMPORTED_MODULE_0__["inject"])("addLayer");
 
-    const latLng = provideLeafletWrapper("latLng");
     Object(vue__WEBPACK_IMPORTED_MODULE_0__["provide"])("canSetParentHtml", () => !!leafletRef.value.getElement());
     Object(vue__WEBPACK_IMPORTED_MODULE_0__["provide"])(
       "setParentHtml",
@@ -15076,13 +15074,7 @@ var script$8 = {
     const { options, methods } = setup$a(props, leafletRef, context);
 
     Object(vue__WEBPACK_IMPORTED_MODULE_0__["onMounted"])(async () => {
-      const {
-        marker,
-        DomEvent,
-        latLng: leafletLatLng,
-        setOptions,
-      } = await __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! leaflet/dist/leaflet-src.esm */ "./node_modules/leaflet/dist/leaflet-src.esm.js"));
-      updateLeafletWrapper(latLng, leafletLatLng);
+      const { marker, DomEvent, setOptions } = await __webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! leaflet/dist/leaflet-src.esm */ "./node_modules/leaflet/dist/leaflet-src.esm.js"));
 
       leafletRef.value = marker(props.latLng, options);
 
@@ -32268,6 +32260,14 @@ __webpack_require__.r(__webpack_exports__);
   },
 
   methods: {
+    setFit() {
+      let bounds = leaflet__WEBPACK_IMPORTED_MODULE_0___default.a.latLngBounds(leaflet__WEBPACK_IMPORTED_MODULE_0___default.a.featureGroup(this.getSearchedItemMarkers()).getBounds());
+      console.log('bounds', bounds);
+      this.map.fitBounds(bounds, {
+        maxZoom: 13
+      });
+    },
+
     zoomUpdated(zoom) {
       this.zoom = zoom;
     },
@@ -32294,11 +32294,7 @@ __webpack_require__.r(__webpack_exports__);
           iconSize: [51, 58]
         });
       });
-      let bounds = leaflet__WEBPACK_IMPORTED_MODULE_0___default.a.latLngBounds(leaflet__WEBPACK_IMPORTED_MODULE_0___default.a.featureGroup(this.getSearchedItemMarkers()).getBounds());
-      console.log('bounds', bounds);
-      this.map.fitBounds(bounds, {
-        maxZoom: 13
-      });
+      this.setFit();
       this.boundsUpdated(this.map.getBounds(), this.zoom - 3);
       this.map.on('dragend', () => {
         this.boundsUpdated(this.map.getBounds(), this.zoom - 3);
@@ -32366,10 +32362,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/App.vue?vue&type=template&id=f348271a&scoped=true&bindings={\"zoom\":\"data\",\"center\":\"data\",\"defaultMarkerIcon\":\"data\",\"currentAccoIcon\":\"data\",\"markerData\":\"data\",\"markerDataAccos\":\"data\",\"markers\":\"data\",\"zoomUpdated\":\"options\",\"centerUpdated\":\"options\",\"ready\":\"options\",\"getSearchedItemMarkers\":\"options\",\"boundsUpdated\":\"options\",\"getAccommodations\":\"options\",\"getPois\":\"options\",\"randArray\":\"options\"}":
-/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--27-0!./resources/js/App.vue?vue&type=template&id=f348271a&scoped=true&bindings={"zoom":"data","center":"data","defaultMarkerIcon":"data","currentAccoIcon":"data","markerData":"data","markerDataAccos":"data","markers":"data","zoomUpdated":"options","centerUpdated":"options","ready":"options","getSearchedItemMarkers":"options","boundsUpdated":"options","getAccommodations":"options","getPois":"options","randArray":"options"} ***!
-  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/App.vue?vue&type=template&id=f348271a&scoped=true&bindings={\"zoom\":\"data\",\"center\":\"data\",\"defaultMarkerIcon\":\"data\",\"currentAccoIcon\":\"data\",\"markerData\":\"data\",\"markerDataAccos\":\"data\",\"markers\":\"data\",\"setFit\":\"options\",\"zoomUpdated\":\"options\",\"centerUpdated\":\"options\",\"ready\":\"options\",\"getSearchedItemMarkers\":\"options\",\"boundsUpdated\":\"options\",\"getAccommodations\":\"options\",\"getPois\":\"options\",\"randArray\":\"options\"}":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib!./node_modules/vue-loader/dist/templateLoader.js??ref--6!./node_modules/vue-loader/dist??ref--27-0!./resources/js/App.vue?vue&type=template&id=f348271a&scoped=true&bindings={"zoom":"data","center":"data","defaultMarkerIcon":"data","currentAccoIcon":"data","markerData":"data","markerDataAccos":"data","markers":"data","setFit":"options","zoomUpdated":"options","centerUpdated":"options","ready":"options","getSearchedItemMarkers":"options","boundsUpdated":"options","getAccommodations":"options","getPois":"options","randArray":"options"} ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -66536,12 +66532,12 @@ module.exports = function(module) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _App_vue_vue_type_template_id_f348271a_scoped_true_bindings_zoom_data_center_data_defaultMarkerIcon_data_currentAccoIcon_data_markerData_data_markerDataAccos_data_markers_data_zoomUpdated_options_centerUpdated_options_ready_options_getSearchedItemMarkers_options_boundsUpdated_options_getAccommodations_options_getPois_options_randArray_options___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./App.vue?vue&type=template&id=f348271a&scoped=true&bindings={"zoom":"data","center":"data","defaultMarkerIcon":"data","currentAccoIcon":"data","markerData":"data","markerDataAccos":"data","markers":"data","zoomUpdated":"options","centerUpdated":"options","ready":"options","getSearchedItemMarkers":"options","boundsUpdated":"options","getAccommodations":"options","getPois":"options","randArray":"options"} */ "./resources/js/App.vue?vue&type=template&id=f348271a&scoped=true&bindings={\"zoom\":\"data\",\"center\":\"data\",\"defaultMarkerIcon\":\"data\",\"currentAccoIcon\":\"data\",\"markerData\":\"data\",\"markerDataAccos\":\"data\",\"markers\":\"data\",\"zoomUpdated\":\"options\",\"centerUpdated\":\"options\",\"ready\":\"options\",\"getSearchedItemMarkers\":\"options\",\"boundsUpdated\":\"options\",\"getAccommodations\":\"options\",\"getPois\":\"options\",\"randArray\":\"options\"}");
+/* harmony import */ var _App_vue_vue_type_template_id_f348271a_scoped_true_bindings_zoom_data_center_data_defaultMarkerIcon_data_currentAccoIcon_data_markerData_data_markerDataAccos_data_markers_data_setFit_options_zoomUpdated_options_centerUpdated_options_ready_options_getSearchedItemMarkers_options_boundsUpdated_options_getAccommodations_options_getPois_options_randArray_options___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./App.vue?vue&type=template&id=f348271a&scoped=true&bindings={"zoom":"data","center":"data","defaultMarkerIcon":"data","currentAccoIcon":"data","markerData":"data","markerDataAccos":"data","markers":"data","setFit":"options","zoomUpdated":"options","centerUpdated":"options","ready":"options","getSearchedItemMarkers":"options","boundsUpdated":"options","getAccommodations":"options","getPois":"options","randArray":"options"} */ "./resources/js/App.vue?vue&type=template&id=f348271a&scoped=true&bindings={\"zoom\":\"data\",\"center\":\"data\",\"defaultMarkerIcon\":\"data\",\"currentAccoIcon\":\"data\",\"markerData\":\"data\",\"markerDataAccos\":\"data\",\"markers\":\"data\",\"setFit\":\"options\",\"zoomUpdated\":\"options\",\"centerUpdated\":\"options\",\"ready\":\"options\",\"getSearchedItemMarkers\":\"options\",\"boundsUpdated\":\"options\",\"getAccommodations\":\"options\",\"getPois\":\"options\",\"randArray\":\"options\"}");
 /* harmony import */ var _App_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./App.vue?vue&type=script&lang=js */ "./resources/js/App.vue?vue&type=script&lang=js");
 /* empty/unused harmony star reexport */
 
 
-_App_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].render = _App_vue_vue_type_template_id_f348271a_scoped_true_bindings_zoom_data_center_data_defaultMarkerIcon_data_currentAccoIcon_data_markerData_data_markerDataAccos_data_markers_data_zoomUpdated_options_centerUpdated_options_ready_options_getSearchedItemMarkers_options_boundsUpdated_options_getAccommodations_options_getPois_options_randArray_options___WEBPACK_IMPORTED_MODULE_0__["render"]
+_App_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].render = _App_vue_vue_type_template_id_f348271a_scoped_true_bindings_zoom_data_center_data_defaultMarkerIcon_data_currentAccoIcon_data_markerData_data_markerDataAccos_data_markers_data_setFit_options_zoomUpdated_options_centerUpdated_options_ready_options_getSearchedItemMarkers_options_boundsUpdated_options_getAccommodations_options_getPois_options_randArray_options___WEBPACK_IMPORTED_MODULE_0__["render"]
 _App_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"].__scopeId = "data-v-f348271a"
 /* hot reload */
 if (false) {}
@@ -66568,17 +66564,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/App.vue?vue&type=template&id=f348271a&scoped=true&bindings={\"zoom\":\"data\",\"center\":\"data\",\"defaultMarkerIcon\":\"data\",\"currentAccoIcon\":\"data\",\"markerData\":\"data\",\"markerDataAccos\":\"data\",\"markers\":\"data\",\"zoomUpdated\":\"options\",\"centerUpdated\":\"options\",\"ready\":\"options\",\"getSearchedItemMarkers\":\"options\",\"boundsUpdated\":\"options\",\"getAccommodations\":\"options\",\"getPois\":\"options\",\"randArray\":\"options\"}":
-/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./resources/js/App.vue?vue&type=template&id=f348271a&scoped=true&bindings={"zoom":"data","center":"data","defaultMarkerIcon":"data","currentAccoIcon":"data","markerData":"data","markerDataAccos":"data","markers":"data","zoomUpdated":"options","centerUpdated":"options","ready":"options","getSearchedItemMarkers":"options","boundsUpdated":"options","getAccommodations":"options","getPois":"options","randArray":"options"} ***!
-  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./resources/js/App.vue?vue&type=template&id=f348271a&scoped=true&bindings={\"zoom\":\"data\",\"center\":\"data\",\"defaultMarkerIcon\":\"data\",\"currentAccoIcon\":\"data\",\"markerData\":\"data\",\"markerDataAccos\":\"data\",\"markers\":\"data\",\"setFit\":\"options\",\"zoomUpdated\":\"options\",\"centerUpdated\":\"options\",\"ready\":\"options\",\"getSearchedItemMarkers\":\"options\",\"boundsUpdated\":\"options\",\"getAccommodations\":\"options\",\"getPois\":\"options\",\"randArray\":\"options\"}":
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./resources/js/App.vue?vue&type=template&id=f348271a&scoped=true&bindings={"zoom":"data","center":"data","defaultMarkerIcon":"data","currentAccoIcon":"data","markerData":"data","markerDataAccos":"data","markers":"data","setFit":"options","zoomUpdated":"options","centerUpdated":"options","ready":"options","getSearchedItemMarkers":"options","boundsUpdated":"options","getAccommodations":"options","getPois":"options","randArray":"options"} ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_27_0_App_vue_vue_type_template_id_f348271a_scoped_true_bindings_zoom_data_center_data_defaultMarkerIcon_data_currentAccoIcon_data_markerData_data_markerDataAccos_data_markers_data_zoomUpdated_options_centerUpdated_options_ready_options_getSearchedItemMarkers_options_boundsUpdated_options_getAccommodations_options_getPois_options_randArray_options___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../node_modules/babel-loader/lib!../../node_modules/vue-loader/dist/templateLoader.js??ref--6!../../node_modules/vue-loader/dist??ref--27-0!./App.vue?vue&type=template&id=f348271a&scoped=true&bindings={"zoom":"data","center":"data","defaultMarkerIcon":"data","currentAccoIcon":"data","markerData":"data","markerDataAccos":"data","markers":"data","zoomUpdated":"options","centerUpdated":"options","ready":"options","getSearchedItemMarkers":"options","boundsUpdated":"options","getAccommodations":"options","getPois":"options","randArray":"options"} */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/App.vue?vue&type=template&id=f348271a&scoped=true&bindings={\"zoom\":\"data\",\"center\":\"data\",\"defaultMarkerIcon\":\"data\",\"currentAccoIcon\":\"data\",\"markerData\":\"data\",\"markerDataAccos\":\"data\",\"markers\":\"data\",\"zoomUpdated\":\"options\",\"centerUpdated\":\"options\",\"ready\":\"options\",\"getSearchedItemMarkers\":\"options\",\"boundsUpdated\":\"options\",\"getAccommodations\":\"options\",\"getPois\":\"options\",\"randArray\":\"options\"}");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_27_0_App_vue_vue_type_template_id_f348271a_scoped_true_bindings_zoom_data_center_data_defaultMarkerIcon_data_currentAccoIcon_data_markerData_data_markerDataAccos_data_markers_data_zoomUpdated_options_centerUpdated_options_ready_options_getSearchedItemMarkers_options_boundsUpdated_options_getAccommodations_options_getPois_options_randArray_options___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_27_0_App_vue_vue_type_template_id_f348271a_scoped_true_bindings_zoom_data_center_data_defaultMarkerIcon_data_currentAccoIcon_data_markerData_data_markerDataAccos_data_markers_data_setFit_options_zoomUpdated_options_centerUpdated_options_ready_options_getSearchedItemMarkers_options_boundsUpdated_options_getAccommodations_options_getPois_options_randArray_options___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../node_modules/babel-loader/lib!../../node_modules/vue-loader/dist/templateLoader.js??ref--6!../../node_modules/vue-loader/dist??ref--27-0!./App.vue?vue&type=template&id=f348271a&scoped=true&bindings={"zoom":"data","center":"data","defaultMarkerIcon":"data","currentAccoIcon":"data","markerData":"data","markerDataAccos":"data","markers":"data","setFit":"options","zoomUpdated":"options","centerUpdated":"options","ready":"options","getSearchedItemMarkers":"options","boundsUpdated":"options","getAccommodations":"options","getPois":"options","randArray":"options"} */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js?!./node_modules/vue-loader/dist/index.js?!./resources/js/App.vue?vue&type=template&id=f348271a&scoped=true&bindings={\"zoom\":\"data\",\"center\":\"data\",\"defaultMarkerIcon\":\"data\",\"currentAccoIcon\":\"data\",\"markerData\":\"data\",\"markerDataAccos\":\"data\",\"markers\":\"data\",\"setFit\":\"options\",\"zoomUpdated\":\"options\",\"centerUpdated\":\"options\",\"ready\":\"options\",\"getSearchedItemMarkers\":\"options\",\"boundsUpdated\":\"options\",\"getAccommodations\":\"options\",\"getPois\":\"options\",\"randArray\":\"options\"}");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ref_6_node_modules_vue_loader_dist_index_js_ref_27_0_App_vue_vue_type_template_id_f348271a_scoped_true_bindings_zoom_data_center_data_defaultMarkerIcon_data_currentAccoIcon_data_markerData_data_markerDataAccos_data_markers_data_setFit_options_zoomUpdated_options_centerUpdated_options_ready_options_getSearchedItemMarkers_options_boundsUpdated_options_getAccommodations_options_getPois_options_randArray_options___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 
 

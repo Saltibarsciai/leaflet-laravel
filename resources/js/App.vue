@@ -83,6 +83,11 @@
             }
         },
         methods: {
+            setFit() {
+                let bounds = L.latLngBounds(L.featureGroup(this.getSearchedItemMarkers()).getBounds());
+                console.log('bounds', bounds);
+                this.map.fitBounds(bounds, {maxZoom: 13});
+            },
             zoomUpdated(zoom) {
                 this.zoom = zoom
             },
@@ -107,10 +112,7 @@
                     })
                 });
 
-                let bounds = L.latLngBounds(L.featureGroup(this.getSearchedItemMarkers()).getBounds());
-                console.log('bounds', bounds);
-                this.map.fitBounds(bounds, {maxZoom: 13});
-
+                this.setFit()
                 this.boundsUpdated(this.map.getBounds(), this.zoom - 3);
                 this.map.on('dragend', () => {
                     this.boundsUpdated(this.map.getBounds(), this.zoom - 3);
